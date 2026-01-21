@@ -10,6 +10,23 @@ from dotenv import load_dotenv
 import yfinance as yf
 
 from broker import Broker
+import time
+from pathlib import Path
+
+LOCK = Path(".last_run_epoch")
+
+def ran_within_last_hour() -> bool:
+    if not LOCK.exists():
+        return False
+    try:
+        last = float(LOCK.read_text().strip())
+        return (time.time() - last) < 3600
+    except Exception:
+        return False
+
+def mark_ran_now():
+    LOCK.write_text(str(time.time()))
+
 
 load_dotenv()
 KEY = os.getenv("KEY")
@@ -78,6 +95,10 @@ def pick_top2(tickers: list[str]) -> list[str]:
 
 
 def main():
+    if ran_within_last_hour():
+        print("Already ran in the last hour — skipping.")
+    return
+
     broker = Broker(KEY, SECRET, paper=PAPER)
 
     acct = broker.client.get_account()
@@ -113,6 +134,8 @@ def main():
         broker.buy_dollars(sym, DAILY_DOLLARS)
 
     print("DONE.")
+    mark_ran_now()
+
 
 
 if __name__ == "__main__":

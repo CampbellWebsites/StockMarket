@@ -9,7 +9,6 @@ print("Broker has buy_dollars:", hasattr(Broker, "buy_dollars"))
 from dotenv import load_dotenv
 import yfinance as yf
 
-from broker import Broker
 import time
 from pathlib import Path
 
@@ -95,13 +94,11 @@ def pick_top2(tickers: list[str]) -> list[str]:
 
 
 def main():
-    if ran_within_last_hour():
-        print("Already ran in the last hour — skipping.")
-    return
 
-    broker = Broker(KEY, SECRET, paper=PAPER)
+    print("INSIDE MAIN ✅")
+    b = Broker(KEY, SECRET, paper=PAPER)
 
-    acct = broker.client.get_account()
+    acct = b.client.get_account()
     buying_power = float(acct.buying_power)
 
     planned_spend = DAILY_DOLLARS * (len(ETF_LIST) + 2)
@@ -115,7 +112,7 @@ def main():
 
     # 1) Buy ETFs
     for etf in ETF_LIST:
-        broker.buy_dollars(etf, DAILY_DOLLARS)
+        b.buy_dollars(etf, DAILY_DOLLARS)
 
     # 2) Pick top 2 performers from your universe
     universe = load_universe()
@@ -131,12 +128,13 @@ def main():
 
     # 3) Buy top 2
     for sym in top2:
-        broker.buy_dollars(sym, DAILY_DOLLARS)
+        b.buy_dollars(sym, DAILY_DOLLARS)
 
     print("DONE.")
     mark_ran_now()
 
 
+print("about to run main")  # debug print
 
 if __name__ == "__main__":
     try:

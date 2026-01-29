@@ -1,6 +1,7 @@
 name: Run trading bot hourly (market hours only)
 
 on:
+  push:
   schedule:
     # Once per hour, Monday–Friday (UTC). We guard inside code.
     - cron: "0 * * * 1-5"

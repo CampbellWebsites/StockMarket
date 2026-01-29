@@ -17,3 +17,4 @@ if clock.is_open:
 
 print("Market is closed ⛔ — skipping run")
 raise SystemExit(1)
+#testing

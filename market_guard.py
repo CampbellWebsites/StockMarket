@@ -1,8 +1,8 @@
 import os
 from alpaca.trading.client import TradingClient
 
-key = os.getenv("PKHM5U4ZQZM47RKRUD7OZJPIH7")
-secret = os.getenv("H5w1sSUDS3SJZx4vcEFUYAPCSdacXDyYF18yns956HC")
+key = os.getenv("KEY")
+secret = os.getenv("SECRET")
 paper = os.getenv("PAPER", "true").lower() == "true"
 
 if not key or not secret:

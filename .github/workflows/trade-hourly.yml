@@ -32,16 +32,16 @@ jobs:
 
       - name: Market open guard
         env:
-          KEY: ${{ secrets.ALPACA_KEY }}
-          SECRET: ${{ secrets.ALPACA_SECRET }}
+          KEY: ${{ secrets.KEY }}
+          SECRET: ${{ secrets.SECRET }}
           PAPER: "true"
         run: |
           python market_guard.py
 
       - name: Run daily buyer
         env:
-          KEY: ${{ secrets.ALPACA_KEY }}
-          SECRET: ${{ secrets.ALPACA_SECRET }}
+          KEY: ${{ secrets.KEY }}
+          SECRET: ${{ secrets.SECRET }}
           PAPER: "true"
         run: |
           python daily_buyer.py
